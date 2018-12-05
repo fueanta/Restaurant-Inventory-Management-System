@@ -1,0 +1,32 @@
+CREATE table "ROTTEN_INGREDIENT" (
+    "ID"            NUMBER(3,0),
+    "INGREDIENT_ID" NUMBER(3,0),
+    "AMOUNT"        NUMBER(10,4),
+    "DATE_ADDED"    DATE,
+    constraint  "ROTTEN_INGREDIENT_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "ROTTEN_INGREDIENT_SEQ" 
+/
+
+CREATE trigger "BI_ROTTEN_INGREDIENT"  
+  before insert on "ROTTEN_INGREDIENT"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "ROTTEN_INGREDIENT_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "ROTTEN_INGREDIENT" ADD CONSTRAINT "ROTTEN_INGREDIENT_FK" 
+FOREIGN KEY ("INGREDIENT_ID")
+REFERENCES "INGREDIENT" ("ID")
+ON DELETE SET NULL
+
+/
+alter table "ROTTEN_INGREDIENT" add
+constraint "ROTTEN_INGREDIENT_CK1" 
+check (AMOUNT IS NOT NULL)
+/

@@ -1,0 +1,42 @@
+CREATE table "POS_PURCHASE" (
+    "ID"            NUMBER(6,0),
+    "DESCRIPTION"   VARCHAR2(300),
+    "TIME"          DATE,
+    "EMPLOYEE_ID"   NUMBER(3,0),
+    "SUPPLIER_ID"   NUMBER(3,0),
+    "COST"          NUMBER(10,4),
+    "DISCOUNT_RATE" NUMBER(2,0),
+    "TOTAL_COST"    NUMBER(10,4),
+    constraint  "POS_PURCHASE_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "POS_PURCHASE_SEQ" 
+/
+
+CREATE trigger "BI_POS_PURCHASE"  
+  before insert on "POS_PURCHASE"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "POS_PURCHASE_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "POS_PURCHASE" ADD CONSTRAINT "POS_PURCHASE_FK" 
+FOREIGN KEY ("EMPLOYEE_ID")
+REFERENCES "EMPLOYEE" ("ID")
+ON DELETE SET NULL
+
+/
+ALTER TABLE "POS_PURCHASE" ADD CONSTRAINT "POS_PURCHASE_FK2" 
+FOREIGN KEY ("SUPPLIER_ID")
+REFERENCES "SUPPLIER" ("ID")
+ON DELETE SET NULL
+
+/
+alter table "POS_PURCHASE" add
+constraint "POS_PURCHASE_UK1" 
+unique ("TIME")
+/

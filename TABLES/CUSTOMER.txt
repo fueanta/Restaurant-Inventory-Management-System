@@ -1,0 +1,34 @@
+CREATE table "CUSTOMER" (
+    "ID"         NUMBER(3,0),
+    "NAME"       VARCHAR2(30),
+    "CONTACT_NO" VARCHAR2(15),
+    "EMAIL"      VARCHAR2(30),
+    "ADDRESS"    VARCHAR2(50),
+    "TYPE_ID"    NUMBER(3,0),
+    constraint  "CUSTOMER_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "CUSTOMER_SEQ" 
+/
+
+CREATE trigger "BI_CUSTOMER"  
+  before insert on "CUSTOMER"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "CUSTOMER_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "CUSTOMER" ADD CONSTRAINT "CUSTOMER_FK" 
+FOREIGN KEY ("TYPE_ID")
+REFERENCES "CUSTOMER_TYPE" ("ID")
+ON DELETE SET NULL
+
+/
+alter table "CUSTOMER" add
+constraint "CUSTOMER_UK1" 
+unique ("CONTACT_NO","EMAIL")
+/ 

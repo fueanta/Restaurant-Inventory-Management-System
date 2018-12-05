@@ -1,0 +1,37 @@
+CREATE table "POS_ORDER" (
+    "ID"            NUMBER(6,0),
+    "DESCRIPTION"   VARCHAR2(150),
+    "PLACE_TIME"    DATE,
+    "EMPLOYEE_ID"   NUMBER(3,0),
+    "BILL"          NUMBER(10,4),
+    "DISCOUNT_RATE" NUMBER(2,0),
+    "OTHER_CHARGES" NUMBER(10,4),
+    "TOTAL_BILL"    NUMBER(10,4),
+    "CARD_NUMBER"   VARCHAR2(30),
+    constraint  "POS_ORDER_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "POS_ORDER_SEQ" 
+/
+
+CREATE trigger "BI_POS_ORDER"  
+  before insert on "POS_ORDER"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "POS_ORDER_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "POS_ORDER" ADD CONSTRAINT "POS_ORDER_FK" 
+FOREIGN KEY ("EMPLOYEE_ID")
+REFERENCES "EMPLOYEE" ("ID")
+ON DELETE SET NULL
+
+/
+alter table "POS_ORDER" add
+constraint "POS_ORDER_CK1" 
+check (BILL > 0 AND DISCOUNT_RATE >= 0 AND TOTAL_BILL >= 0)
+/   

@@ -1,0 +1,26 @@
+CREATE table "JOB" (
+    "ID"          NUMBER(3,0),
+    "JOB_TITLE"   VARCHAR2(20),
+    "SALARY"      NUMBER(6,0),
+    "DESCRIPTION" VARCHAR2(50),
+    constraint  "JOB_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "JOB_SEQ" 
+/
+
+CREATE trigger "BI_JOB"  
+  before insert on "JOB"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "JOB_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+alter table "JOB" add
+constraint "JOB_UK1" 
+unique ("JOB_TITLE")
+/

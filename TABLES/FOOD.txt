@@ -1,0 +1,42 @@
+CREATE table "FOOD" (
+    "ID"            NUMBER(3,0),
+    "NAME"          VARCHAR2(30),
+    "PRICE"         NUMBER(8,3),
+    "DESCRIPTION"   VARCHAR2(200),
+    "TYPE_ID"       NUMBER(3,0),
+    "DISCOUNT_RATE" NUMBER(2,0),
+    "AVAILABILITY"  VARCHAR2(2),
+    "OTHER_CHARGES" NUMBER(8,3),
+    "STOCK_COUNT"   NUMBER(5,0),
+    "PICTURE"       VARCHAR2(500),
+    constraint  "FOOD_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "FOOD_SEQ" 
+/
+
+CREATE trigger "BI_FOOD"  
+  before insert on "FOOD"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "FOOD_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "FOOD" ADD CONSTRAINT "FOOD_FK" 
+FOREIGN KEY ("TYPE_ID")
+REFERENCES "FOOD_TYPE" ("ID")
+ON DELETE CASCADE
+
+/
+alter table "FOOD" add
+constraint "FOOD_CK1" 
+check (PRICE IS NOT NULL AND DISCOUNT_RATE >= 0)
+/   
+alter table "FOOD" add
+constraint "FOOD_UK1" 
+unique ("NAME")
+/ 

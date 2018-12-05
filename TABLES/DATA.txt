@@ -1,0 +1,25 @@
+CREATE table "DATA" (
+    "ID"         NUMBER(3,0),
+    "DATA_NAME"  VARCHAR2(15) NOT NULL,
+    "DATA_VALUE" NUMBER(5,2) NOT NULL,
+    constraint  "DATA_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "DATA_SEQ" 
+/
+
+CREATE trigger "BI_DATA"  
+  before insert on "DATA"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "DATA_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+alter table "DATA" add
+constraint "DATA_UK1" 
+unique ("DATA_NAME")
+/

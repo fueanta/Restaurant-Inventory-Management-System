@@ -1,0 +1,32 @@
+CREATE table "PERIOD" (
+    "ID"          NUMBER(3,0),
+    "EMPLOYEE_ID" NUMBER(3,0) NOT NULL,
+    "LOGIN_TIME"  DATE NOT NULL,
+    "LOGOUT_TIME" DATE,
+    constraint  "PERIOD_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "PERIOD_SEQ" 
+/
+
+CREATE trigger "BI_PERIOD"  
+  before insert on "PERIOD"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "PERIOD_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "PERIOD" ADD CONSTRAINT "PERIOD_FK" 
+FOREIGN KEY ("EMPLOYEE_ID")
+REFERENCES "EMPLOYEE" ("ID")
+ON DELETE SET NULL
+
+/
+alter table "PERIOD" add
+constraint "PERIOD_UK1" 
+unique ("LOGIN_TIME","LOGOUT_TIME")
+/

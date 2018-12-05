@@ -1,0 +1,25 @@
+CREATE table "FOOD_TYPE" (
+    "ID"          NUMBER(3,0),
+    "TYPE_NAME"   VARCHAR2(30) NOT NULL,
+    "DESCRIPTION" VARCHAR2(150),
+    constraint  "FOOD_TYPE_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "FOOD_TYPE_SEQ" 
+/
+
+CREATE trigger "BI_FOOD_TYPE"  
+  before insert on "FOOD_TYPE"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "FOOD_TYPE_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+alter table "FOOD_TYPE" add
+constraint "FOOD_TYPE_UK1" 
+unique ("TYPE_NAME")
+/  

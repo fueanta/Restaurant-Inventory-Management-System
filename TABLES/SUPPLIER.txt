@@ -1,0 +1,28 @@
+CREATE table "SUPPLIER" (
+    "ID"         NUMBER(3,0),
+    "NAME"       VARCHAR2(30),
+    "CONTACT_NO" VARCHAR2(15),
+    "EMAIL"      VARCHAR2(30),
+    "ADDRESS"    VARCHAR2(50),
+    "DATE_ADDED" DATE,
+    constraint  "SUPPLIER_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "SUPPLIER_SEQ" 
+/
+
+CREATE trigger "BI_SUPPLIER"  
+  before insert on "SUPPLIER"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "SUPPLIER_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+alter table "SUPPLIER" add
+constraint "SUPPLIER_UK1" 
+unique ("CONTACT_NO","EMAIL")
+/ 

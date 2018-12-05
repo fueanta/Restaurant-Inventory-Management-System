@@ -1,0 +1,33 @@
+CREATE table "EMPLOYEE_PAYMENT" (
+    "ID"          NUMBER(6,0),
+    "EMPLOYEE_ID" NUMBER(3,0) NOT NULL,
+    "DESCRIPTION" VARCHAR2(200),
+    "TIME"        DATE,
+    "AMOUNT"      NUMBER(10,4) NOT NULL,
+    constraint  "EMPLOYEE_PAYMENT_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "EMPLOYEE_PAYMENT_SEQ" 
+/
+
+CREATE trigger "BI_EMPLOYEE_PAYMENT"  
+  before insert on "EMPLOYEE_PAYMENT"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "EMPLOYEE_PAYMENT_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "EMPLOYEE_PAYMENT" ADD CONSTRAINT "EMPLOYEE_PAYMENT_FK" 
+FOREIGN KEY ("EMPLOYEE_ID")
+REFERENCES "EMPLOYEE" ("ID")
+ON DELETE SET NULL
+
+/
+alter table "EMPLOYEE_PAYMENT" add
+constraint "EMPLOYEE_PAYMENT_UK1" 
+unique ("TIME")
+/

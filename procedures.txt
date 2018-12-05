@@ -1,0 +1,544 @@
+create or replace package job_pkg as
+    procedure insert_job(j_title varchar2, j_salary number, j_description varchar2); 
+    procedure update_job(j_id number, j_title varchar2, j_salary number, j_description varchar2);
+    procedure delete_job(j_id number);
+end job_pkg;
+/
+
+------------------------------------------------------------------------------------------------------------
+
+create or replace package body job_pkg as
+
+    procedure insert_job(j_title varchar2, j_salary number, j_description varchar2) as
+    begin
+        insert into job (job_title, salary, description) values (j_title, j_salary, j_description);
+    end insert_job;
+
+    procedure update_job(j_id number, j_title varchar2, j_salary number, j_description varchar2) as
+    begin
+        update job set job_title = j_title, salary = j_salary, description = j_description where id = j_id;
+    end update_job;
+
+    procedure delete_job(j_id number) as
+    begin
+        delete from job where id = j_id;
+    end delete_job;
+
+end job_pkg;
+/
+
+-----------------------------------------------------------------------------------------------------------
+
+create or replace package employee_pkg as   
+    procedure insert_employee(e_name varchar2, e_contact_no varchar2, e_email varchar2, e_address varchar2, e_hire_date date, e_commission number, e_job_id number, e_picture varchar2, e_password varchar2, e_authority varchar2);
+    procedure update_employee(e_id number, e_name varchar2, e_contact_no varchar2, e_email varchar2, e_address varchar2, e_hire_date date, e_commission number, e_job_id number, e_picture varchar2, e_password varchar2, e_authority varchar2);
+    procedure delete_employee(e_id number);
+end employee_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body employee_pkg as 
+  
+    procedure insert_employee(e_name varchar2, e_contact_no varchar2, e_email varchar2, e_address varchar2, e_hire_date date, e_commission number, e_job_id number, e_picture varchar2, e_password varchar2, e_authority varchar2) as
+    begin
+        insert into employee (name, contact_no, email, address, hire_date, commission, job_id, picture, password, authority) values
+     (e_name, e_contact_no, e_email, e_address, e_hire_date, e_commission, e_job_id, e_picture, e_password, e_authority);
+    end insert_employee;
+
+    procedure update_employee(e_id number, e_name varchar2, e_contact_no varchar2, e_email varchar2, e_address varchar2, e_hire_date date, e_commission number, e_job_id number, e_picture varchar2, e_password varchar2, e_authority varchar2) as
+    begin
+        update employee set name = e_name, contact_no = e_contact_no, email = e_email, address = e_address, hire_date = e_hire_date, commission = e_commission, job_id = e_job_id, picture = e_picture, password = e_password, authority = e_authority where id = e_id;
+    end update_employee;
+
+    procedure delete_employee(e_id number) as
+    begin
+        delete from employee where id = e_id;
+    end;
+
+end employee_pkg;
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package customer_type_pkg as
+    procedure insert_customer_type(ct_TYPE_TITLE varchar2, ct_ORDER_COUNT number, ct_TOTAL_BILL number, ct_DISCOUNT_RATE number);
+    procedure update_custoemr_type(ct_ID number, ct_TYPE_TITLE varchar2, ct_ORDER_COUNT number, ct_TOTAL_BILL number, ct_DISCOUNT_RATE number);
+    procedure delete_custoemr_type(ct_ID number);
+end customer_type_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body customer_type_pkg as
+
+    procedure insert_customer_type(ct_TYPE_TITLE varchar2, ct_ORDER_COUNT number, ct_TOTAL_BILL number, ct_DISCOUNT_RATE number) as
+    begin
+        insert into customer_type (TYPE_TITLE, ORDER_COUNT, TOTAL_BILL, DISCOUNT_RATE) values (ct_TYPE_TITLE, ct_ORDER_COUNT, ct_TOTAL_BILL, ct_DISCOUNT_RATE);
+    end insert_customer_type;
+
+    procedure update_custoemr_type(ct_ID number, ct_TYPE_TITLE varchar2, ct_ORDER_COUNT number, ct_TOTAL_BILL number, ct_DISCOUNT_RATE number) as
+    begin
+        update customer_type set TYPE_TITLE = ct_TYPE_TITLE, ORDER_COUNT = ct_ORDER_COUNT, TOTAL_BILL = ct_TOTAL_BILL, DISCOUNT_RATE = ct_DISCOUNT_RATE where ID = ct_ID;
+    end update_custoemr_type;
+
+    procedure delete_custoemr_type(ct_ID number) as
+    begin
+        delete from customer_type where ID = ct_ID;
+    end delete_custoemr_type;
+
+end customer_type_pkg;
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package customer_pkg as   
+    procedure insert_customer(c_name varchar2, c_contact_no varchar2, c_email varchar2, c_address varchar2, c_type_id number, c_picture varchar2);
+    procedure update_customer(c_id number, c_name varchar2, c_contact_no varchar2, c_email varchar2, c_address varchar2, c_type_id number, c_picture varchar2);
+    procedure delete_customer(c_id number);
+end customer_pkg;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body customer_pkg as 
+  
+    procedure insert_customer(c_name varchar2, c_contact_no varchar2, c_email varchar2, c_address varchar2, c_type_id number, c_picture varchar2) as
+    begin
+        insert into customer(name, contact_no, email, address, type_id, picture) values
+     (c_name, c_contact_no, c_email, c_address, c_type_id, c_picture);
+    end insert_customer;
+
+    procedure update_customer(c_id number, c_name varchar2, c_contact_no varchar2, c_email varchar2, c_address varchar2, c_type_id number, c_picture varchar2) as
+    begin
+        update customer set name = c_name, contact_no = c_contact_no, email = c_email, address = c_address, type_id = c_type_id, picture = c_picture where id = c_id;
+    end update_customer;
+
+    procedure delete_customer(c_id number) as
+    begin
+        delete from customer where id = c_id;
+    end delete_customer;
+
+end customer_pkg;
+
+-----------------------------------------------------------------------------------------------------------
+
+create or replace package supplier_pkg as   
+    procedure insert_supplier(s_name varchar2, s_contact_no varchar2, s_email varchar2, s_address varchar2, s_date_added date, s_description varchar2);
+    procedure update_supplier(s_id number, s_name varchar2, s_contact_no varchar2, s_email varchar2, s_address varchar2, s_date_added date, s_description varchar2);
+    procedure delete_supplier(s_id number);
+end supplier_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body supplier_pkg as 
+  
+    procedure insert_supplier(s_name varchar2, s_contact_no varchar2, s_email varchar2, s_address varchar2, s_date_added date, s_description varchar2) as
+    begin
+        insert into supplier (name, contact_no, email, address, date_added, description) values
+     (s_name, s_contact_no, s_email, s_address, s_date_added, s_description);
+    end insert_supplier;
+
+    procedure update_supplier(s_id number, s_name varchar2, s_contact_no varchar2, s_email varchar2, s_address varchar2, s_date_added date, s_description varchar2) as
+    begin
+        update supplier set name = s_name, contact_no = s_contact_no, email = s_email, address = s_address, date_added = s_date_added, description = s_description where id = s_id;
+    end update_supplier;
+
+    procedure delete_supplier(s_id number) as
+    begin
+        delete from supplier where id = s_id;
+    end delete_supplier;
+
+end supplier_pkg;
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package ingredient_pkg as 
+  procedure insert_ingredient(i_name varchar2, i_description varchar2, i_unit_id number, i_unit_cost number, i_amount number);
+  procedure update_ingredient(i_id number, i_name varchar2, i_description varchar2, i_unit_id number, i_unit_cost number, i_amount number);
+  procedure delete_ingredient(i_id number);
+end ingredient_pkg;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+create or replace package body ingredient_pkg as
+
+  procedure insert_ingredient(i_name varchar2, i_description varchar2, i_unit_id number, i_unit_cost number, i_amount number) as 
+    begin 
+      insert into INGREDIENT (NAME, DESCRIPTION, UNIT_ID, UNIT_COST, AMOUNT) values (i_name, i_description, i_unit_id, i_unit_cost, i_amount);
+    end insert_ingredient;
+
+  procedure update_ingredient(i_id number, i_name varchar2, i_description varchar2, i_unit_id number, i_unit_cost number, i_amount number) as 
+    begin 
+      update INGREDIENT set NAME = i_name, DESCRIPTION = i_description, UNIT_ID = i_unit_id, UNIT_COST = i_unit_cost, AMOUNT = i_amount where ID = i_id;
+    end update_ingredient;
+
+  procedure delete_ingredient(i_id number) as 
+    begin 
+      delete from INGREDIENT where ID = i_id;
+    end delete_ingredient;
+
+end ingredient_pkg;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package rotten_ingredient_pkg as 
+  procedure insert_rotten_ingredient (r_ingredient_id number, r_amount number, r_date_added date);
+  procedure update_rotten_ingredient (r_id number, r_ingredient_id number, r_amount number, r_date_added date);
+  procedure delete_rotten_ingredient (r_id number);
+end rotten_ingredient_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body rotten_ingredient_pkg as
+
+  procedure insert_rotten_ingredient (r_ingredient_id number, r_amount number, r_date_added date) as 
+    begin 
+      insert into ROTTEN_INGREDIENT (ingredient_id, amount, date_added) values (r_ingredient_id, r_amount, r_date_added);
+    end insert_rotten_ingredient;
+
+  procedure update_rotten_ingredient (r_id number, r_ingredient_id number, r_amount number, r_date_added date) as 
+    begin 
+      update ROTTEN_INGREDIENT set ingredient_id = r_ingredient_id, amount = r_amount, date_added = r_date_added where ID = r_id;
+    end update_rotten_ingredient;
+
+  procedure delete_rotten_ingredient (r_id number) as 
+    begin 
+      delete from ROTTEN_INGREDIENT where ID = r_id;
+    end delete_rotten_ingredient;
+
+end rotten_ingredient_pkg;
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package unit_type_pkg as 
+  procedure insert_unit_type(u_name varchar2, u_symbol varchar2);
+  procedure update_unit_type(u_id number, u_name varchar2, u_symbol varchar2);
+  procedure delete_unit_type(u_id number);
+end unit_type_pkg;
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+create or replace package body unit_type_pkg as
+
+  procedure insert_unit_type(u_name varchar2, u_symbol varchar2) as 
+    begin 
+      insert into UNIT_TYPE (NAME, SYMBOL) values (u_name, u_symbol);
+    end insert_unit_type;
+
+  procedure update_unit_type(u_id number, u_name varchar2, u_symbol varchar2) as 
+    begin 
+      update UNIT_TYPE set NAME = u_name, SYMBOL = u_symbol where ID = u_id;
+    end update_unit_type;
+
+  procedure delete_unit_type(u_id number) as 
+    begin 
+      delete from UNIT_TYPE where ID = u_id;
+    end delete_unit_type;
+
+end unit_type_pkg;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package report_pkg as 
+  procedure insert_report(r_employee_id number, r_description varchar2);
+  procedure update_report(r_id number, r_employee_id number, r_description varchar2);
+  procedure delete_report(r_id number);
+end report_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body report_pkg as
+
+  procedure insert_report(r_employee_id number, r_description varchar2) as 
+    begin
+      insert into REPORT (EMPLOYEE_ID, DESCRIPTION) values (r_employee_id, r_description);
+    end insert_report; 
+
+  procedure update_report(r_id number, r_employee_id number, r_description varchar2) as
+    begin 
+      update REPORT set EMPLOYEE_ID = r_employee_id, DESCRIPTION = r_description where ID = r_id;
+    end update_report;
+
+  procedure delete_report(r_id number) as 
+    begin
+      delete from REPORT where ID = r_id;
+    end delete_report;
+
+end report_pkg;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+create  or replace package order_pkg as 
+  procedure insert_order(o_description varchar2, o_place_time date, o_employee_id number, o_bill number, o_discount_rate number, o_other_charges number, o_total_bill number, o_card_number varchar2);
+  procedure update_order(o_id number, o_description varchar2, o_place_time date, o_employee_id number, o_bill number, o_discount_rate number, o_other_charges number, o_total_bill number, o_card_number varchar2);
+  procedure delete_order(o_id number);
+end order_pkg;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+create  or replace package body order_pkg as
+  procedure insert_order(o_description varchar2, o_place_time date, o_employee_id number, o_bill number, o_discount_rate number, o_other_charges number, o_total_bill number, o_card_number varchar2) as 
+    begin
+      insert into POS_ORDER (DESCRIPTION, PLACE_TIME, EMPLOYEE_ID, BILL, DISCOUNT_RATE, OTHER_CHARGES, TOTAL_BILL, CARD_NUMBER) values (o_description, o_place_time, o_employee_id, o_bill, o_discount_rate, o_other_charges, o_total_bill, o_card_number);
+    end insert_order;
+  procedure update_order(o_id number, o_description varchar2, o_place_time date, o_employee_id number, o_bill number, o_discount_rate number, o_other_charges number, o_total_bill number, o_card_number varchar2) as 
+    begin 
+      update POS_ORDER set DESCRIPTION = o_description, PLACE_TIME = o_place_time, EMPLOYEE_ID = o_employee_id, BILL = o_bill, DISCOUNT_RATE = o_discount_rate, OTHER_CHARGES = o_other_charges, TOTAL_BILL = o_total_bill, CARD_NUMBER = o_card_number where ID = o_id;
+    end update_order;
+  procedure delete_order(o_id number) as 
+    begin
+      delete from POS_ORDER where ID = o_id;
+    end delete_order;
+end order_pkg;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create  or replace package purchase_pkg as 
+  procedure insert_purchase(p_description varchar2, p_time date, p_employee_id number, p_supplier_id number, p_cost number, p_discount_rate number, p_total_cost number);
+  procedure update_purchase(p_id number, p_description varchar2, p_time date, p_employee_id number, p_supplier_id number, p_cost number, p_discount_rate number, p_total_cost number);
+  procedure delete_purchase(p_id number);
+end purchase_pkg;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+create  or replace package body purchase_pkg as
+
+  procedure insert_purchase(p_description varchar2, p_time date, p_employee_id number, p_supplier_id number, p_cost number, p_discount_rate number, p_total_cost number) as 
+    begin
+      insert into POS_PURCHASE(DESCRIPTION, TIME, EMPLOYEE_ID, SUPPLIER_ID, COST, DISCOUNT_RATE, TOTAL_COST) values (p_description, p_time, p_employee_id, p_supplier_id, p_cost, p_discount_rate, p_total_cost);
+    end insert_purchase;
+
+  procedure update_purchase(p_id number, p_description varchar2, p_time date, p_employee_id number, p_supplier_id number, p_cost number, p_discount_rate number, p_total_cost number) as 
+    begin 
+      update POS_PURCHASE set DESCRIPTION = p_description, TIME = p_time, EMPLOYEE_ID = p_employee_id, SUPPLIER_ID = p_supplier_id, COST = p_cost, DISCOUNT_RATE = p_discount_rate, TOTAL_COST = p_total_cost where ID = p_id;
+    end update_purchase;
+
+  procedure delete_purchase(p_id number) as
+    begin
+      delete from POS_PURCHASE where ID = p_id;
+    end delete_purchase;
+
+end purchase_pkg;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package period_pkg as
+  procedure insert_period(p_employee_id number, p_login_time date, p_logout_time date);
+  procedure update_period(p_id number, p_employee_id number, p_login_time date, p_logout_time date);
+  procedure delete_period(p_id number);
+end period_pkg;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body period_pkg as
+
+  procedure insert_period(p_employee_id number, p_login_time date, p_logout_time date) as
+    begin
+      insert into PERIOD (EMPLOYEE_ID, LOGIN_TIME, LOGOUT_TIME) values (p_employee_id, p_login_time, p_logout_time);
+    end insert_period;
+
+  procedure update_period(p_id number, p_employee_id number, p_login_time date, p_logout_time date) as 
+    begin 
+      update PERIOD set EMPLOYEE_ID = p_employee_id, LOGIN_TIME = p_login_time, LOGOUT_TIME = p_logout_time where ID = p_id;
+    end update_period;
+
+  procedure delete_period(p_id number) as 
+    begin 
+      delete from PERIOD where ID = p_id;
+    end delete_period;
+
+end period_pkg;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package food_type_pkg as 
+  procedure insert_food_type(ft_type_name varchar2, ft_description varchar2);
+  procedure update_food_type(ft_id number, ft_type_name varchar2, ft_description varchar2);
+  procedure delete_food_type(ft_id number);
+end food_type_pkg;
+
+-------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body food_type_pkg as
+
+  procedure insert_food_type(ft_type_name varchar2, ft_description varchar2) as 
+    begin 
+      insert into FOOD_TYPE (TYPE_NAME, DESCRIPTION) values (ft_type_name, ft_description);
+    end insert_food_type;
+
+  procedure update_food_type(ft_id number, ft_type_name varchar2, ft_description varchar2) as 
+    begin 
+      update FOOD_TYPE set TYPE_NAME = ft_type_name, DESCRIPTION = ft_description where ID = ft_id;
+    end update_food_type;
+
+  procedure delete_food_type(ft_id number) as 
+    begin 
+      delete from FOOD_TYPE where ID = ft_id;
+    end delete_food_type;
+
+end food_type_pkg;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package food_pkg as
+  procedure insert_food(f_name varchar2, f_price number, f_description varchar2, f_type_id number, f_discount_rate number, f_availability varchar2, f_other_charges number, f_picture varchar2);
+  procedure update_food(f_id number, f_name varchar2, f_price number, f_description varchar2, f_type_id number, f_discount_rate number, f_availability varchar2, f_other_charges number, f_picture varchar2);
+  procedure delete_food(f_id number);
+end food_pkg;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body food_pkg as
+
+  procedure insert_food(f_name varchar2, f_price number, f_description varchar2, f_type_id number, f_discount_rate number, f_availability varchar2, f_other_charges number, f_picture varchar2) as 
+    begin 
+      insert into FOOD (NAME, PRICE, DESCRIPTION, TYPE_ID, DISCOUNT_RATE, AVAILABILITY, OTHER_CHARGES, PICTURE) values (f_name, f_price, f_description, f_type_id, f_discount_rate, f_availability, f_other_charges, f_picture);
+    end insert_food;
+
+  procedure update_food(f_id number, f_name varchar2, f_price number, f_description varchar2, f_type_id number, f_discount_rate number, f_availability varchar2, f_other_charges number, f_picture varchar2) as 
+    begin 
+      update FOOD set NAME = f_name, PRICE = f_price, DESCRIPTION = f_description, TYPE_ID = f_type_id, DISCOUNT_RATE = f_discount_rate, AVAILABILITY = f_availability, OTHER_CHARGES = f_other_charges, PICTURE = f_picture where ID = f_id;
+    end update_food;
+
+  procedure delete_food(f_id number) as 
+    begin 
+      delete from FOOD where ID = f_id;
+    end delete_food;
+
+end food_pkg;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package employee_payment_pkg as 
+  procedure insert_employee_payment(ep_employee_id number, ep_description varchar2, ep_time date, ep_amount number);
+  procedure update_employee_payment(ep_id number, ep_employee_id number, ep_description varchar2, ep_time date, ep_amount number);
+  procedure delete_employee_payment(ep_id number);
+end employee_payment_pkg;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body employee_payment_pkg as
+
+  procedure insert_employee_payment(ep_employee_id number, ep_description varchar2, ep_time date, ep_amount number) as 
+    begin 
+      insert into EMPLOYEE_PAYMENT (EMPLOYEE_ID, DESCRIPTION, TIME, AMOUNT) values (ep_employee_id, ep_description, ep_time, ep_amount);
+    end insert_employee_payment;
+
+  procedure update_employee_payment(ep_id number, ep_employee_id number, ep_description varchar2, ep_time date, ep_amount number) as 
+    begin 
+      update EMPLOYEE_PAYMENT set EMPLOYEE_ID = ep_id, DESCRIPTION = ep_description, TIME = ep_time, AMOUNT = ep_amount where ID = ep_id;
+    end update_employee_payment;
+
+  procedure delete_employee_payment(ep_id number) as 
+    begin 
+      delete from EMPLOYEE_PAYMENT where ID = ep_id;
+    end delete_employee_payment;
+
+end employee_payment_pkg;
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package data_pkg as
+  procedure insert_data(d_data_name varchar2, d_data_value number);
+  procedure update_data(d_id number, d_data_name varchar2, d_data_value number);
+  procedure delete_data(d_id number);
+end data_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body data_pkg as
+  procedure insert_data(d_data_name varchar2, d_data_value number) as 
+    begin 
+      insert into DATA (DATA_NAME, DATA_VALUE) values (d_data_name, d_data_value);
+    end insert_data;
+  procedure update_data(d_id number, d_data_name varchar2, d_data_value number) as 
+    begin 
+      update DATA set DATA_NAME = d_data_name, DATA_VALUE = d_data_value where ID = d_id;
+    end update_data;
+  procedure delete_data(d_id number) as 
+    begin 
+      delete from DATA where ID = d_id;
+    end delete_data;
+end data_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package change_log_pkg as 
+  procedure insert_change_log(cl_employee_id number, cl_description varchar2);
+  procedure update_change_log(cl_id number, cl_employee_id number, cl_description varchar2);
+  procedure delete_change_log(cl_id number);
+end change_log_pkg;
+
+-------------------------------------------------------------------------------------------------------
+
+create or replace package body change_log_pkg as
+  procedure insert_change_log(cl_employee_id number, cl_description varchar2) as 
+    begin 
+      insert into CHANGE_LOG (EMPLOYEE_ID, DESCRIPTION) values (cl_employee_id, cl_description);
+    end insert_change_log;
+  procedure update_change_log(cl_id number, cl_employee_id number, cl_description varchar2) as 
+    begin 
+      update CHANGE_LOG set EMPLOYEE_ID = cl_employee_id, DESCRIPTION = cl_description where ID = cl_id;
+    end update_change_log;
+  procedure delete_change_log(cl_id number) as 
+    begin 
+      delete from CHANGE_LOG where ID = cl_id;
+    end delete_change_log;
+end change_log_pkg;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package food_ingredient_pkg as 
+  procedure insert_food_ingredient(fi_food_id number, fi_ingredient_id number, fi_amount number);
+  procedure delete_food_ingredient(fi_food_id number);
+end food_ingredient_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+create or replace package body food_ingredient_pkg as
+  
+  procedure insert_food_ingredient(fi_food_id number, fi_ingredient_id number, fi_amount number) as
+    begin
+      insert into FOOD_INGREDIENT values (fi_food_id, fi_ingredient_id, fi_amount);
+    end insert_food_ingredient;
+  
+  procedure delete_food_ingredient(fi_food_id number) as
+    begin
+      delete from FOOD_INGREDIENT where FOOD_ID = fi_food_id;
+    end delete_food_ingredient;
+  
+end food_ingredient_pkg;
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+create or replace procedure insert_purchase_ingredient(pi_ingredient_id number, pi_amount number) as 
+  pi_purchase_id number;
+  begin 
+    select POS_PURCHASE_SEQ.nextval into pi_purchase_id from dual;
+    insert into PURCHASE_INGREDIENT values (pi_purchase_id, pi_ingredient_id, pi_amount);
+  end insert_purchase_ingredient;
+
+------------------------------------------------------------------------------------------------------------
+
+create or replace procedure insert_order_food(of_food_id number, of_count number) as 
+  of_order_id number;
+  cursor my_rec is
+    select ingredient_id, amount from food_ingredient where food_id = of_food_id;
+  begin
+    for each_rec in my_rec loop
+      update ingredient SET amount = amount - (each_rec.amount * of_count) where id = each_rec.ingredient_id;
+    end loop; 
+    select POS_ORDER_SEQ.currval into of_order_id from dual;
+    insert into ORDER_FOOD values (of_order_id, of_food_id, of_count);
+  end insert_order_food;
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+

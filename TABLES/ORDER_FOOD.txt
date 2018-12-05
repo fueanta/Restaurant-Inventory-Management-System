@@ -1,0 +1,16 @@
+CREATE table "ORDER_FOOD" (
+    "ORDER_ID"   NUMBER(6,0),
+    "FOOD_ID"    NUMBER(3,0),
+    "COUNT"      NUMBER(3,0)
+)
+/
+
+alter table "ORDER_FOOD" add constraint  "ORDER_FOOD_PK" primary key ("ORDER_ID","FOOD_ID")
+/
+
+ALTER TABLE "ORDER_FOOD" ADD CONSTRAINT "ORDER_FOOD_FK" 
+FOREIGN KEY ("ORDER_ID")
+REFERENCES "POS_ORDER" ("ID")
+ON DELETE CASCADE
+
+/

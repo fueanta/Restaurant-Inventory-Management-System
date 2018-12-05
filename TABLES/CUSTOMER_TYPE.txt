@@ -1,0 +1,28 @@
+CREATE table "CUSTOMER_TYPE" (
+    "ID"            NUMBER(3,0),
+    "TYPE_TITLE"    VARCHAR2(15),
+    "ORDER_COUNT"   NUMBER(5,0),
+    "TOTAL_BILL"    NUMBER(7,0),
+    "DISCOUNT"      NUMBER(3,0),
+    "DISCOUNT_RATE" NUMBER(2,0),
+    constraint  "CUSTOMER_TYPE_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "CUSTOMER_TYPE_SEQ" 
+/
+
+CREATE trigger "BI_CUSTOMER_TYPE"  
+  before insert on "CUSTOMER_TYPE"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "CUSTOMER_TYPE_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+alter table "CUSTOMER_TYPE" add
+constraint "CUSTOMER_TYPE_UK1" 
+unique ("TYPE_TITLE")
+/

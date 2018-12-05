@@ -1,0 +1,39 @@
+CREATE table "EMPLOYEE" (
+    "ID"           NUMBER(3,0),
+    "USER_NAME"    VARCHAR2(30),
+    "PASSWORD"     VARCHAR2(15),
+    "ADMIN_ACCESS" VARCHAR2(2),
+    "CONTACT_NO"   VARCHAR2(15),
+    "EMAIL"        VARCHAR2(30),
+    "ADDRESS"      VARCHAR2(50),
+    "HIRE_DATE"    DATE,
+    "COMMISSION"   NUMBER(2,0),
+    "JOB_ID"       NUMBER(3,0),
+    "PICTURE"      VARCHAR2(150),
+    constraint  "EMPLOYEE_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "EMPLOYEE_SEQ" 
+/
+
+CREATE trigger "BI_EMPLOYEE"  
+  before insert on "EMPLOYEE"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "EMPLOYEE_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "EMPLOYEE" ADD CONSTRAINT "EMPLOYEE_FK" 
+FOREIGN KEY ("JOB_ID")
+REFERENCES "JOB" ("ID")
+ON DELETE SET NULL
+
+/
+alter table "EMPLOYEE" add
+constraint "EMPLOYEE_UK1" 
+unique ("USER_NAME","CONTACT_NO","EMAIL")
+/ 

@@ -1,0 +1,25 @@
+CREATE table "UNIT_TYPE" (
+    "ID"         NUMBER(3,0),
+    "NAME"       VARCHAR2(20),
+    "SYMBOL"     VARCHAR2(5),
+    constraint  "UNIT_TYPE_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "UNIT_TYPE_SEQ" 
+/
+
+CREATE trigger "BI_UNIT_TYPE"  
+  before insert on "UNIT_TYPE"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "UNIT_TYPE_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+alter table "UNIT_TYPE" add
+constraint "UNIT_TYPE_UK1" 
+unique ("NAME","SYMBOL")
+/ 

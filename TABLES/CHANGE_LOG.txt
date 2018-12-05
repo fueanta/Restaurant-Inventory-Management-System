@@ -1,0 +1,26 @@
+CREATE table "CHANGE_LOG" (
+    "ID"          NUMBER(5,0),
+    "EMPLOYEE_ID" NUMBER(3,0),
+    "DESCRIPTION" VARCHAR2(200) NOT NULL,
+    constraint  "CHANGE_LOG_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "CHANGE_LOG_SEQ" 
+/
+
+CREATE trigger "BI_CHANGE_LOG"  
+  before insert on "CHANGE_LOG"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "CHANGE_LOG_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "CHANGE_LOG" ADD CONSTRAINT "CHANGE_LOG_FK" 
+FOREIGN KEY ("EMPLOYEE_ID")
+REFERENCES "EMPLOYEE" ("ID")
+
+/

@@ -1,0 +1,27 @@
+CREATE table "REPORT" (
+    "ID"          NUMBER(5,0),
+    "EMPLOYEE_ID" NUMBER(3,0),
+    "DESCRIPTION" VARCHAR2(300) NOT NULL,
+    constraint  "REPORT_PK" primary key ("ID")
+)
+/
+
+CREATE sequence "REPORT_SEQ" 
+/
+
+CREATE trigger "BI_REPORT"  
+  before insert on "REPORT"              
+  for each row 
+begin  
+  if :NEW."ID" is null then
+    select "REPORT_SEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/   
+
+ALTER TABLE "REPORT" ADD CONSTRAINT "REPORT_FK" 
+FOREIGN KEY ("EMPLOYEE_ID")
+REFERENCES "EMPLOYEE" ("ID")
+ON DELETE SET NULL
+
+/
